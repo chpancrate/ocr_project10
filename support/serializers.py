@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from support.models import Project
+from support.models import Project, Contributor
 
 
 class ProjectSerializer(ModelSerializer):
@@ -10,5 +10,15 @@ class ProjectSerializer(ModelSerializer):
                   'author',
                   'description',
                   'type',
+                  'created_time',
+                  'updated_time']
+
+
+class ContributorSerializer(ModelSerializer):
+
+    class Meta:
+        model = Contributor
+        fields = ['user',
+                  'project',
                   'created_time',
                   'updated_time']
