@@ -26,10 +26,10 @@ class Project(models.Model):
 class Contributor(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE,
-                             related_name='project_contributors')
+                             related_name='user_contribution_projects')
     project = models.ForeignKey(Project,
                                 on_delete=models.CASCADE,
-                                related_name='user_contribution_projects',)
+                                related_name='project_contributors',)
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
 

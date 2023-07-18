@@ -19,13 +19,19 @@ from django.urls import path, include
 from rest_framework import routers
 
 from authentication.views import UserViewset
-from support.views import ProjectViewset
+from support.views import (ProjectViewset,
+                           ContributorViewset,
+                           IssueViewset,
+                           CommentViewset)
 
 # router creation
 router = routers.SimpleRouter()
 # routeur configuration
 router.register('user', UserViewset, basename='user')
 router.register('project', ProjectViewset, basename='project')
+router.register('contributor', ContributorViewset, basename='contributor')
+router.register('issue', IssueViewset, basename='issue')
+router.register('comment', CommentViewset, basename='comment')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
