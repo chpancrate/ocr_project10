@@ -1,32 +1,37 @@
 from rest_framework.viewsets import ModelViewSet
 
 from support.models import Project, Contributor, Issue, Comment
-from support.serializers import (ProjectSerializer,
+from support.serializers import (ProjectDetailSerializer,
+                                 ProjectListSerializer,
                                  ContributorDetailSerializer,
                                  ContributorListSerializer,
                                  IssueDetailSerializer,
                                  IssueListSerializer,
-                                 CommentSerializer)
+                                 CommentDetailSerializer,
+                                 CommentListSerializer)
 
 
 class MultipleSerializerMixin:
-    # Un mixin est une classe qui ne fonctionne pas de façon autonome
-    # Elle permet d'ajouter des fonctionnalités aux classes qui les étendent
-
+    """
+    choose the serialiser to be used
+    """
     detail_serializer_class = None
 
     def get_serializer_class(self):
-        # Notre mixin détermine quel serializer à utiliser
-        # même si elle ne sait pas ce que c'est ni comment l'utiliser
-        if self.action == 'retrieve' and self.detail_serializer_class is not None:
-            # Si l'action demandée est le détail alors nous retournons le serializer de détail
+
+        if (self.action == 'retrieve' and
+           self.detail_serializer_class is not None):
+
+            # if the action is detail return the details serializer"
             return self.detail_serializer_class
+
         return super().get_serializer_class()
 
 
-class ProjectViewset(ModelViewSet):
+class ProjectViewset(MultipleSerializerMixin, ModelViewSet):
 
-    serializer_class = ProjectSerializer
+    serializer_class = ProjectListSerializer
+    detail_serializer_class = ProjectDetailSerializer
 
     def get_queryset(self):
         return Project.objects.all()
@@ -52,7 +57,8 @@ class IssueViewset(MultipleSerializerMixin, ModelViewSet):
 
 class CommentViewset(MultipleSerializerMixin, ModelViewSet):
 
-    serializer_class = CommentSerializer
+    serializer_class = CommentListSerializer
+    detail_serializer_class = CommentDetailSerializer
 
     def get_queryset(self):
         return Comment.objects.all()

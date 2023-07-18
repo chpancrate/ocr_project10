@@ -2,7 +2,17 @@ from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from support.models import Project, Contributor, Issue, Comment
 
 
-class ProjectSerializer(ModelSerializer):
+class ProjectListSerializer(ModelSerializer):
+
+    class Meta:
+        model = Project
+        fields = ['name',
+                  'author',
+                  'description',
+                  'type']
+
+
+class ProjectDetailSerializer(ModelSerializer):
 
     project_contributors = SerializerMethodField()
     project_issues = SerializerMethodField()
@@ -88,7 +98,16 @@ class IssueDetailSerializer(ModelSerializer):
                   'updated_time']
 
 
-class CommentSerializer(ModelSerializer):
+class CommentListSerializer(ModelSerializer):
+
+    class Meta:
+        model = Comment
+        fields = ['uuid',
+                  'description',
+                  'author']
+
+
+class CommentDetailSerializer(ModelSerializer):
 
     class Meta:
         model = Comment
