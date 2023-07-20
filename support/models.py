@@ -51,18 +51,23 @@ class Issue(models.Model):
                               choices=[('to-do', 'To Do'),
                                        ('in-progress', 'In Progress'),
                                        ('finished', 'Finished')],
-                              default='to-do')
+                              default='to-do',
+                              blank=True)
     priority = models.CharField(max_length=15,
                                 choices=[('low', 'LOW'),
                                          ('medium', 'MEDIUM'),
-                                         ('high', 'HIGH')])
+                                         ('high', 'HIGH')],
+                                blank=True)
     assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL,
                                     on_delete=models.CASCADE,
-                                    related_name='user_assigned_issues')
+                                    related_name='user_assigned_issues',
+                                    blank=True,
+                                    null=True)
     tag = models.CharField(max_length=15,
                            choices=[('bug', 'BUG'),
                                     ('feature', 'FEATURE'),
-                                    ('task', 'TASK')])
+                                    ('task', 'TASK')],
+                           blank=True)
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
 
