@@ -2,6 +2,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
 from support.permissions import (IsProjectAuthorized,
+                                 IsContributorAuthorized,
                                  IsIssueAuthorized,
                                  IsCommentAuthorized)
 from support.models import Project, Contributor, Issue, Comment
@@ -9,6 +10,7 @@ from support.serializers import (ProjectDetailSerializer,
                                  ProjectCUSerializer,
                                  ProjectListSerializer,
                                  ContributorDetailSerializer,
+                                 ContributorCUSerializer,
                                  ContributorListSerializer,
                                  IssueDetailSerializer,
                                  IssueCUSerializer,
@@ -49,7 +51,7 @@ class ProjectViewset(MultipleSerializerMixin, ModelViewSet):
     detail_serializer_class = ProjectDetailSerializer
     CU_serializer_class = ProjectCUSerializer
 
-    permission_classes = [IsProjectAuthorized]
+    permission_classes = [IsAuthenticated, IsProjectAuthorized]
 
     def get_queryset(self):
         return Project.objects.all()
@@ -59,11 +61,16 @@ class ContributorViewset(MultipleSerializerMixin, ModelViewSet):
 
     serializer_class = ContributorListSerializer
     detail_serializer_class = ContributorDetailSerializer
+    CU_serializer_class = ContributorCUSerializer
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsContributorAuthorized]
 
     def get_queryset(self):
-        return Contributor.objects.all()
+        queryset = Contributor.objects.all()
+        project_id = self.kwargs['project_pk']
+        if project_id is not None:
+            queryset = queryset.filter(project_id=project_id)
+        return queryset
 
 
 class IssueViewset(MultipleSerializerMixin, ModelViewSet):
@@ -76,7 +83,7 @@ class IssueViewset(MultipleSerializerMixin, ModelViewSet):
 
     def get_queryset(self):
         queryset = Issue.objects.all()
-        project_id = self.request.GET.get('project_id')
+        project_id = self.kwargs['project_pk']
         if project_id is not None:
             queryset = queryset.filter(project_id=project_id)
         return queryset
@@ -92,7 +99,7 @@ class CommentViewset(MultipleSerializerMixin, ModelViewSet):
 
     def get_queryset(self):
         queryset = Comment.objects.all()
-        issue_id = self.request.GET.get('issue_id')
+        issue_id = self.kwargs['issue_pk']
         if issue_id is not None:
             queryset = queryset.filter(issue_id=issue_id)
         return queryset

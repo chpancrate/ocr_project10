@@ -33,7 +33,20 @@ All the useful modules are in the requirements.txt file. A quick way to install 
 pip install -r requirements.txt
 ```
 
+## How to run the API
+
+In order to run the application once the setup is complete go in the directory where the application is installed and then use the command : 
+```
+python manage.py runserver
+```
+
+The application will then be accessible at the url : http://127.0.0.1:8000/
+
 ## API manual
+
+
+The following endpoints are available
+
 
 
 

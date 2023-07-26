@@ -31,9 +31,6 @@ router = routers.SimpleRouter()
 # routeur configuration
 router.register('user', UserViewset, basename='user')
 router.register('project', ProjectViewset, basename='project')
-router.register('contributor', ContributorViewset, basename='contributor')
-router.register('issue', IssueViewset, basename='issue')
-router.register('comment', CommentViewset, basename='comment')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -44,5 +41,45 @@ urlpatterns = [
     path('api/token/refresh/',
          TokenRefreshView.as_view(),
          name='token_refresh'),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+    path('api/contributor/<int:project_pk>/',
+         ContributorViewset.as_view(
+             {'get': 'list',
+              'post': 'create'}
+         ),
+         name='contributor_list'),
+    path('api/contributor/<int:project_pk>/<int:pk>/',
+         ContributorViewset.as_view(
+             {'get': 'retrieve',
+              'delete': 'destroy'}
+         ),
+         name='contributor_detail'),
+    path('api/issue/<int:project_pk>/',
+         IssueViewset.as_view(
+             {'get': 'list',
+              'post': 'create'}
+         ),
+         name='issue_list'),
+    path('api/issue/<int:project_pk>/<int:pk>/',
+         IssueViewset.as_view(
+             {'get': 'retrieve',
+              'put': 'update',
+              'patch': 'partial_update',
+              'delete': 'destroy'}
+         ),
+         name='issue_detail'),
+    path('api/comment/<int:issue_pk>/',
+         CommentViewset.as_view(
+             {'get': 'list',
+              'post': 'create'}
+         ),
+         name='comment_list'),
+    path('api/comment/<int:issue_pk>/<uuid:pk>/',
+         CommentViewset.as_view(
+             {'get': 'retrieve',
+              'put': 'update',
+              'patch': 'partial_update',
+              'delete': 'destroy'}
+         ),
+         name='comment_detail')
 ]
