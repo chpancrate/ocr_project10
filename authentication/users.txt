@@ -1,0 +1,4 @@
+The following users are setup :
+- Groot / Gr00t000 (superuser)
+- Sasha / s@sh@000 
+- Leeloo / L33l0000
