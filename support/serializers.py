@@ -195,6 +195,8 @@ class IssueCUSerializer(ModelSerializer):
 
 class IssueDetailSerializer(ModelSerializer):
 
+    issue_comments = SerializerMethodField()
+
     class Meta:
         model = Issue
         fields = ['id',
@@ -207,7 +209,15 @@ class IssueDetailSerializer(ModelSerializer):
                   'assigned_to',
                   'tag',
                   'created_time',
-                  'updated_time']
+                  'updated_time',
+                  'issue_comments']
+
+    def get_issue_comments(self, instance):
+
+        queryset = instance.issue_comments.all()
+        serializer = CommentListSerializer(queryset, many=True)
+
+        return serializer.data
 
 
 class CommentListSerializer(ModelSerializer):
