@@ -67,7 +67,7 @@ The application will then be accessible at the url : http://127.0.0.1:8000/
 | [PROJECT](#project-enpoint) | | 
 | api/project/ | POST | connected user | the user becomes author and contributor to the project created
 | api/project/ | GET | connected user | list of all projects
-| api/project/<int:pk>/ | GET | project contributor | details of the projects with issues and contributors sublist
+| api/project/<int:pk>/ | GET | project contributor | details of the project with issues and contributors sublist
 | api/project/<int:pk>/ | PATCH | project author
 | api/project/<int:pk>/ | PUT | project author
 | api/project/<int:pk>/ | DELETE | project author
@@ -79,7 +79,7 @@ The application will then be accessible at the url : http://127.0.0.1:8000/
 | [ISSUE](#issue-enpoint) | | 
 | api/issue/<int:project_pk>/ | POST | project contributor | the user becomes author of the issue created
 | api/issue/<int:project_pk>/ | GET | project contributor
-| api/issue/<int:project_pk>/<int:pk>/ | GET | project contributor
+| api/issue/<int:project_pk>/<int:pk>/ | GET | project contributor | details of the issue with a comments sublist
 | api/issue/<int:project_pk>/<int:pk>/ | PATCH | issue author
 | api/issue/<int:project_pk>/<int:pk>/ | PUT | issue author
 | api/issue/<int:project_pk>/<int:pk>/ | DELETE | issue author
