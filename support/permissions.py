@@ -24,7 +24,8 @@ class IsProjectAuthorized(BasePermission):
         elif view.action == 'retrieve':
             project = view.kwargs['pk']
             user = request.user
-            # if user is author of the item then authorize UD actions
+            # if user is contributor of the project then authorize
+            # the details display
             if is_contributor(user, project):
                 authorized = True
         elif view.action in ['update',
