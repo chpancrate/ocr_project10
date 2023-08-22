@@ -1,0 +1,403 @@
+<html>
+
+    <head>
+        <title>Softdesk API</title>
+        <style>
+            #endpoints, .endpoint_data{
+                border-collapse: collapse;
+            }
+            #endpoints td, #endpoints th {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+            #endpoints tr:nth-child(even){background-color: #f2f2f2;}
+            #endpoints th, .endpoint_data th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #008AFF;
+                color: white;
+            }
+            #endpoints .subtitle {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #8FCCFF;
+                color: white;
+            }
+
+            .endpoint_data td, .endpoint_data th {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+            .endpoint_data tr:nth-child(even){background-color: #f2f2f2;}
+        </style>
+    </head>
+
+    <body>
+        <h2>Softdesk Support API documentation</h2>
+        <h3>Available endpoints</h3> 
+        <ul>
+            <li><strong>int:pk</strong> or <strong>uuid:pk</strong> is the id of the acessed item</li>
+            <li><strong>int:project_pk</strong> is the project id of the accessed contributor or issue</li>
+            <li><strong>int:issue_pk</strong> is the issue id of the accessed comment</li>
+        </ul>
+
+        <table id="endpoints">
+            <tr>
+                <th>Endpoint</th>
+                <th>Actions</th>
+                <th>Authorization</th>
+                <th>Results</th>
+            </tr>
+            <tr>
+                <td colspan="4" class="subtitle"><a href="#user">USER</a></td>
+            </tr>
+            <tr>
+                <td>api/user/</td>
+                <td>POST</td>
+                <td>unexisting user or superuser</td>
+                <td>create user</td>
+            </tr>
+            <tr>
+                <td>api/user/</td>
+                <td>GET</td>
+                <td>superuser</td>
+                <td>list of users</td>
+            </tr>
+            <tr>
+                <td>api/user/<em>int:pk/</em>/</td>
+                <td>GET</td>
+                <td>user or superuser </td>
+                <td>details</td>
+            </tr>
+            <tr>
+                <td>api/user/<em>int:pk/</em></td>
+                <td>PATCH</td>
+                <td>user or superuser</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>api/user/<em>int:pk/</em></td>
+                <td>PUT</td>
+                <td>user or superuser</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>api/user/<em>int:pk/</em></td>
+                <td>DELETE</td>
+                <td>user or superuser</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="4" class="subtitle"><a href="#project">PROJECT</a></td>
+            </tr>
+            <tr>
+                <td>api/project/</td>
+                <td>POST</td>
+                <td>connected user</td>
+                <td>the user becomes author and contributor to the project created</td>
+            </tr>
+            <tr>
+                <td>api/project/</td>
+                <td>GET</td>
+                <td>connected user</td>
+                <td>list of all projects</td>
+            </tr>
+            <tr>
+                <td>api/project/<em>int:pk</em>/</td>
+                <td>GET</td>
+                <td>project contributor</td>
+                <td>details of the project with issues and contributors sublist</td>
+            </tr>
+            <tr>
+                <td>api/project/<em>int:pk</em>/</td>
+                <td>PATCH</td>
+                <td>project author</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>api/project/<em>int:pk</em>/</td>
+                <td>PUT </td>
+                <td>project author</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>api/project/<em>int:pk</em>/</td>
+                <td>DELETE</td>
+                <td>project author</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="4" class="subtitle"><a href="#contributor">CONTRIBUTOR</a></td>
+            </tr>
+            <tr>
+                <td>api/contributor/<em>int:project_pk</em>/</td>
+                <td>POST</td>
+                <td>non contributor for self or contributor for another</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>api/contributor/<em>int:project_pk</em>/</td>
+                <td>GET</td>
+                <td>contributor</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>api/contributor/<em>int:project_pk</em>/<em>int:pk</em>/</td>
+                <td>GET</td>
+                <td>user concerned</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>api/contributor/<em>int:project_pk</em>/<em>int:pk</em>/</td>
+                <td>DELETE</td>
+                <td>user concerned</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="4" class="subtitle"><a href="#issue">ISSUE</a></td>
+            </tr>
+            <tr>
+                <td>api/issue/<em>int:project_pk</em>/</td>
+                <td>POST</td>
+                <td>project contributor</td>
+                <td>the user becomes author of the issue created</td>
+            </tr>
+            <tr>
+                <td>api/issue/<em>int:project_pk</em>/</td>
+                <td>GET</td>
+                <td>project contributor</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>api/issue/<em>int:project_pk</em>/<em>int:pk</em>/</td>
+                <td>GET</td>
+                <td>project contributor</td>
+                <td>details of the issue with a comments sublist</td>
+            </tr>
+            <tr>
+                <td>api/issue/<em>int:project_pk</em>/<em>int:pk</em>/</td>
+                <td>PATCH</td>
+                <td>issue author</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>api/issue/<em>int:project_pk</em>/<em>int:pk</em>/</td>
+                <td>PUT</td>
+                <td>issue author</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>api/issue/<em>int:project_pk</em>/<em>int:pk</em>/</td>
+                <td>DELETE</td>
+                <td>issue author</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="4" class="subtitle"><a href="#comment">COMMENT</a></td>
+            </tr>
+            <tr>
+                <td>api/comment/<em>int:issue_pk</em>/</td>
+                <td>POST</td>
+                <td>project contributor</td>
+                <td>the user becomes author of the comment created</td>
+            </tr>
+            <tr>
+                <td>api/comment/<em>int:issue_pk</em>/</td>
+                <td>GET</td>
+                <td>project contributor</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>api/comment/<em>int:issue_pk</em>/<em>uuid:pk</em>/</td>
+                <td>GET</td>
+                <td>project contributor</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>api/comment/<em>int:issue_pk</em>/<em>uuid:pk</em>/</td>
+                <td>PATCH</td>
+                <td>comment author</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>api/comment/<em>int:issue_pk</em>/<em>uuid:pk</em>/</td>
+                <td>PUT</td>
+                <td>comment author</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>api/comment/<em>int:issue_pk</em>/<em>uuid:pk</em>/</td>
+                <td>DELETE</td>
+                <td>comment author</td>
+                <td></td>
+            </tr>
+        </table>
+
+        <h3 id="user">User enpoint</h3>
+        <table class="endpoint_data">
+            <tr>
+                <th>Data</th>
+                <th>rules</th>
+            </tr>
+            <tr>
+                <td>username</td>
+                <td>mandatory</td>
+            </tr>
+            <tr>
+                <td>password</td>
+                <td>mandatory</td>
+            </tr>
+            <tr>
+                <td>age </td>
+                <td>mandatory, >= 15</td>
+            </tr>
+            <tr>
+                <td>can_be_contacted</td>
+                <td>boolean, optional, default = False</td>
+            </tr>
+            <tr>
+                <td>can_data_be_shared</td>
+                <td>boolean, optional, default = False</td>
+            </tr>
+            <tr>
+                <td>created_time</td>
+                <td>auto generated</td>
+            </tr>
+        </table>
+
+        <h3 id="project">Project enpoint</h3>
+        <table class="endpoint_data">
+            <tr>
+                <th>Data</th>
+                <th>rules</th>
+            </tr>
+            <tr>
+                <td>author</td>
+                <td>automatically set to the user creating the project</td>
+            </tr>
+            <tr>
+                <td>name</td>
+                <td>mandatory</td>
+            </tr>
+            <tr>
+                <td>description</td>
+                <td>optional</td>
+            </tr>
+            <tr>
+                <td>type</td>
+                <td>mandatory, must be in list ['back-end', 'front-end', 'ios', 'android']</td>
+            </tr>
+            <tr>
+                <td>created_time</td>
+                <td>auto generated</td>
+            </tr>
+            <tr>
+                <td>updated_time</td>
+                <td>auto generated</td>
+            </tr>
+        </table>
+
+        <h3 id="contributor">Contributor enpoint</h3>
+        <table class="endpoint_data">
+            <tr>
+                <th>Data</th>
+                <th>rules</th>
+            </tr>
+            <tr>
+                <td>user</td>
+                <td>mandatory, must be an existing user</td>
+            </tr>
+            <tr>
+                <td>project</td>
+                <td>at creation retrieved from the url</td>
+            </tr>
+            <tr>
+                <td>created_time</td>
+                <td>auto generated</td>
+            </tr>
+            <tr>
+                <td>updated_time</td>
+                <td>auto generated</td>
+            </tr>
+        </table>
+
+        <h3 id="issue">Issue enpoint</h3>
+        <table class="endpoint_data">
+            <tr>
+                <th>Data</th>
+                <th>rules</th>
+            </tr>
+            <tr>
+                <td>project</td>
+                <td>at creation retrieved from the url</td>
+            </tr>
+            <tr>
+                <td>name</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>description</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>author</td>
+                <td>automatically set at creation to the user creating the issue</td>
+            </tr>
+            <tr>
+                <td>status</td>
+                <td>automatically set at creation to the user creating the issue</td>
+            </tr>
+            <tr>
+                <td>priority</td>
+                <td>optional, must be in list ['low', 'medium', high']</td>
+            </tr>
+            <tr>
+                <td>assigned_to</td>
+                <td>must be a user contributor to the project</td>
+            </tr>
+            <tr>
+                <td>tag</td>
+                <td>optional, must be in list ['bug', 'feature', 'task']</td>
+            </tr>
+            <tr>
+                <td>created_time</td>
+                <td>auto generated</td>
+            </tr>
+            <tr>
+                <td>updated_time</td>
+                <td>auto generated</td>
+            </tr>
+        </table>
+
+        <h3 id="comment">Comment enpoint</h3>
+        <table class="endpoint_data">
+            <tr>
+                <th>Data</th>
+                <th>rules</th>
+            </tr>
+            <tr>
+                <td>issue</td>
+                <td>at creation retrieved from the url</td>
+            </tr>
+            <tr>
+                <td>description</td>
+                <td>mandatory</td>
+            </tr>
+            <tr>
+                <td>author</td>
+                <td>automatically set at creation to the user creating the comment</td>
+            </tr>
+            <tr>
+                <td>created_time</td>
+                <td>auto generated</td>
+            </tr>
+            <tr>
+                <td>updated_time</td>
+                <td>auto generated</td>
+            </tr>
+        </table>
+    </body>
+
+</html>

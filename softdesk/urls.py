@@ -24,7 +24,8 @@ from authentication.views import UserViewset
 from support.views import (ProjectViewset,
                            ContributorViewset,
                            IssueViewset,
-                           CommentViewset)
+                           CommentViewset,
+                           home)
 
 # router creation
 router = routers.SimpleRouter()
@@ -33,6 +34,8 @@ router.register('user', UserViewset, basename='user')
 router.register('project', ProjectViewset, basename='project')
 
 urlpatterns = [
+    path('', home, name='home'),
+    path('api/', home, name='homeapi'),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('api/token/',

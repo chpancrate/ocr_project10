@@ -1,3 +1,5 @@
+from django.shortcuts import render
+
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
@@ -18,6 +20,14 @@ from support.serializers import (ProjectDetailSerializer,
                                  CommentDetailSerializer,
                                  CommentCUSerializer,
                                  CommentListSerializer)
+
+
+def home(request):
+    """
+    home page from the api to display documentation 
+    """
+
+    return render(request, 'support/home.html')
 
 
 class MultipleSerializerMixin:
