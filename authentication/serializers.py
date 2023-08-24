@@ -13,8 +13,7 @@ class UserSerializer(ModelSerializer):
                   'can_be_contacted',
                   'can_data_be_shared',
                   'created_time',
-                  'password',
-                  'is_superuser']
+                  'password']
 
     def create(self, validated_data):
         validated_data['password'] = make_password(

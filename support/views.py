@@ -24,7 +24,7 @@ from support.serializers import (ProjectDetailSerializer,
 
 def home(request):
     """
-    home page from the api to display documentation 
+    home page from the api to display documentation
     """
 
     return render(request, 'support/home.html')
