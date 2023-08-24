@@ -2,9 +2,16 @@ from django.shortcuts import get_object_or_404
 from rest_framework.serializers import (ModelSerializer,
                                         SerializerMethodField,
                                         ValidationError)
+from rest_framework.pagination import PageNumberPagination
 
 from support.models import Project, Contributor, Issue, Comment
 from support.functions import is_contributor
+
+
+class ProjectDetailPagination(PageNumberPagination):
+    page_size = 1
+    page_size_query_param = 'page_size'
+    max_page_size = 100
 
 
 class ProjectListSerializer(ModelSerializer):
@@ -72,9 +79,11 @@ class ProjectDetailSerializer(ModelSerializer):
     def get_project_issues(self, instance):
 
         queryset = instance.project_issues.all()
-        serializer = IssueSmallListSerializer(queryset, many=True)
+        paginator = ProjectDetailPagination()
+        page = paginator.paginate_queryset(queryset, self.context['request'])
+        serializer = IssueSmallListSerializer(page, many=True)
 
-        return serializer.data
+        return paginator.get_paginated_response(serializer.data).data
 
 
 class ContributorListSerializer(ModelSerializer):
@@ -215,9 +224,11 @@ class IssueDetailSerializer(ModelSerializer):
     def get_issue_comments(self, instance):
 
         queryset = instance.issue_comments.all()
-        serializer = CommentListSerializer(queryset, many=True)
+        paginator = ProjectDetailPagination()
+        page = paginator.paginate_queryset(queryset, self.context['request'])
+        serializer = CommentListSerializer(page, many=True)
 
-        return serializer.data
+        return paginator.get_paginated_response(serializer.data).data
 
 
 class CommentListSerializer(ModelSerializer):
