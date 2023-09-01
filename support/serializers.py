@@ -109,8 +109,7 @@ class ContributorCUSerializer(ModelSerializer):
         # Call the parent method to get the initial internal value
         internal_value = super().to_internal_value(data)
 
-        # Your custom data preprocessing logic here
-        # For example, you can convert the 'name' field value to uppercase
+        # Get the project and set it in the value before validation
         view = self.context['view']
         project_id = view.kwargs['project_pk']
         project = get_object_or_404(Project, pk=project_id)
